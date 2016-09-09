@@ -29,6 +29,19 @@ public class MyTableModel extends AbstractTableModel {
         columnNames.add("Total");
     }
     
+    {
+        List<Object> temp = new ArrayList();
+        temp.add(new Integer(1));
+        temp.add("");
+        temp.add("");
+        temp.add("");
+        temp.add("");
+        temp.add("");
+        temp.add("");
+        temp.add(new Integer(0));
+        temp.add("");
+        data.add(temp);
+    }
     
 
     public void addRow(List rowData) {

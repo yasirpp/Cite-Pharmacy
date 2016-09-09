@@ -245,8 +245,19 @@ public class AddInvoice extends javax.swing.JFrame {
         JTable target = (JTable) evt.getSource();
         int row = target.getSelectedRow();
         int column = target.getSelectedColumn();
-        JOptionPane.showMessageDialog(null, "row:" + row + " and col:" + column);
-        model.addRow(Arrays.asList("yi", "chen", "sleep", 35, true));
+//        JOptionPane.showMessageDialog(null, "row:" + row + " and col:" + column);
+        List<Object> temp = new ArrayList();
+        int sl = row+2;
+        temp.add(new Integer(sl));
+        temp.add("");
+        temp.add("");
+        temp.add("");
+        temp.add("");
+        temp.add("");
+        temp.add("");
+        temp.add(new Integer(0));
+        temp.add("");
+        model.addRow(temp);
     }//GEN-LAST:event_invoiceTableKeyPressed
 
     /**
