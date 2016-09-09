@@ -1,9 +1,13 @@
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 /*
@@ -20,6 +24,8 @@ public class AddInvoice extends javax.swing.JFrame {
     /**
      * Creates new form AddInvoice
      */
+    private MyTableModel model = new MyTableModel();
+    private TableModel abModel = new MyTableModel();
     private String tableColumn[] = {"Sl No", "Product", "Batch No", "Expiry", "Quantity", "Price", "Offer", "Tax", "Total"};
     private Object tableData[][] = {
         {new Integer(1), "", "", "", "", "", new Integer(0), "", ""}
@@ -27,36 +33,51 @@ public class AddInvoice extends javax.swing.JFrame {
 
     public AddInvoice() {
         initComponents();
-        setTableModel();
+        invoiceTable.setModel(model);
+//        setTableModel();
     }
 
     public void setTableModel() {
-        TableModel model = new AbstractTableModel() {
-            @Override
-            public int getRowCount() {
-                return tableData.length;
+        abModel = new AbstractTableModel() {
+            private List<String> columnNames = Arrays.asList(tableColumn);
+            private List<List> data = new ArrayList();
+            
+            public void addRow(List rowData) {
+                data.add(rowData);
+                fireTableRowsInserted(data.size() - 1, data.size() - 1);
             }
 
-            @Override
             public int getColumnCount() {
-                return tableColumn.length;
+                return columnNames.size();
             }
 
-            @Override
-            public Object getValueAt(int rowIndex, int columnIndex) {
-                return tableData[rowIndex][columnIndex];
+            public int getRowCount() {
+                return data.size();
             }
 
             public String getColumnName(int col) {
-                return tableColumn[col];
+                try {
+                    return columnNames.get(col);
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+            public Object getValueAt(int row, int col) {
+                return data.get(row).get(col);
+            }
+
+            public boolean isCellEditable(int row, int col) {
+                return false;
             }
 
             public Class getColumnClass(int c) {
                 return getValueAt(0, c).getClass();
             }
+
         };
 
-        invoiceTable.setModel(model);
+        invoiceTable.setModel(abModel);
         invoiceTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         invoiceTable.getColumnModel().getColumn(1).setPreferredWidth(200);
         invoiceTable.getColumnModel().getColumn(2).setPreferredWidth(5);
@@ -225,6 +246,7 @@ public class AddInvoice extends javax.swing.JFrame {
         int row = target.getSelectedRow();
         int column = target.getSelectedColumn();
         JOptionPane.showMessageDialog(null, "row:" + row + " and col:" + column);
+        model.addRow(Arrays.asList("yi", "chen", "sleep", 35, true));
     }//GEN-LAST:event_invoiceTableKeyPressed
 
     /**
